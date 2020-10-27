@@ -127,3 +127,11 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Twitter credentials
+.credentials
+.credentials.py
+credentials.py
+credentials
+credentials/
+credentials.py/
