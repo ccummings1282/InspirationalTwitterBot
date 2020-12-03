@@ -1,5 +1,6 @@
 import tweepy
 import credentials
+from time import sleep
 
 consumer_key = credentials.API_KEY
 consumer_secret_key = credentials.API_SECRET_KEY
@@ -13,32 +14,27 @@ def tweet_update():
     api = tweepy.API(auth)
 
 
-    # mentions = api.mentions_timeline()
-    #760840544117334016
-    #760840544117334016
-    # mentions['id'] = mentions.__dict__
+    # Sends a reply to two tweets which contain #hello
+    for tweet in tweepy.Cursor(api.search, q=('#hello -filter:retweets'), lang='en').items(2):
+        try:
+            name = tweet.user.screen_name
+            text = tweet.text
+            reply = "@%s Hey!" % (name)
+            
+            tweet = api.update_status(reply, tweet.id)
+            print('Replied to @' + name + '\'s tweet, which was:\n\n' + text + '\n\n')
 
-    #tweet['id']
-    # print(mentions)
+            sleep(1)
+        
+        except tweepy.TweepError as e:
+            # Prints the reason for error if thrown.
+            print(e.reason)
 
-
-
-    tweets = api.mentions_timeline()
-    for t in tweets:
-
-        # hashtags = [i['text'].lower() for i in t.__dict__['entities']['hashtags']]
-        print("retweeted tweet of : "+t.in_reply_to_screen_name)
-        # print("retweeted tweet of : "+t.__dict__['source'])
-
-
-    # test_tweet = "Lol I made a bot"
-    # for i in range(5):
-    #     test_tweet = test_tweet + "lol"
-    #     api.update_status(test_tweet)
-    #     print("hi")
+        except StopIteration:
+            break
 
 
 if __name__ == "__main__":
     tweet_update()
 
-    # to run:   python .\SendTweets.py
+    # Run with terminal:   python .\SendTweets.py
