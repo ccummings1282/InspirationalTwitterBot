@@ -1,5 +1,7 @@
-# TweepyBot
+# Inspirational Twitter Bot
 
-Twitter bot that replies to tweets containing the hashtag #NeedInspiration
+This Twitter bot will like and send a reply to any tweet which conatins **#NeedInspiration**.
 
-The bot will send a reply which conatins a randomly selected inspirational quote.
+The generated response will contain:
+* Authors's Twitter handle
+* Randomly selected inpirational quote

@@ -1,5 +1,6 @@
 import tweepy
 import credentials
+import random
 from time import sleep
 
 # Set twitter credentials
@@ -25,21 +26,28 @@ def tweet_update():
 
 
 
-    # Sends a reply to the most recent tweet which contains: #wantinspiration
-    for tweet in tweepy.Cursor(api.search, q=('#hi -filter:retweets'), lang='en').items(1):
+    # Sends a reply to the most recent tweet which contains: #NeedInspiration
+    for tweet in tweepy.Cursor(api.search, q=('#NeedInspiration -filter:retweets'), lang='en').items(1):
         try:
-            name = tweet.user.screen_name
-            text = tweet.text
-            reply = ("Hey @" + name + ", here's a cool quote:\n" + quotes[0])
-            
-            tweet = api.update_status(reply, tweet.id)
-            print('Replied to @' + name + '\'s tweet, which was:\n\n' + text + '\n\n')
+            handle = tweet.user.screen_name # author's twitter handle from selected tweet
+            text = tweet.text # text from selected tweet
+            random_quote = random.choice(quotes) # random quote from list of quotes
 
-            sleep(1)
+            # compose response to send to selected tweet
+            response = ("Hey @" + handle + ", here's an inspiring quote:\n" + random_quote)
+            
+            # likes, then sends reponse to the selected tweet
+            tweet.favorite()
+            tweet = api.update_status(response, tweet.id)
+
+            # prints success log to console
+            print('Success! Replied to @' + handle + '\'s tweet:\n\n' + text + '\n')
+
+            # sleep for 15 minutes
+            # sleep(900)
         
         except tweepy.TweepError as e:
-            # Prints the reason for error if thrown.
-            print(e.reason)
+            print(e.reason) # Prints the reason for error if thrown.
 
         except StopIteration:
             break
