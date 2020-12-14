@@ -1,14 +1,14 @@
 import tweepy
-import credentials
+from os import environ
 import random
 import heroku
 from time import sleep
 
-# Set twitter credentials
-consumer_key = credentials.API_KEY
-consumer_secret_key = credentials.API_SECRET_KEY
-access_token = credentials.ACCESS_TOKEN
-access_token_secret = credentials.ACCESS_TOKEN_SECRET
+# Set twitter credentials, these are stored in Heroku Config Vars
+consumer_key = environ['API_KEY']
+consumer_secret_key = environ['API_SECRET_KEY']
+access_token = environ['ACCESS_TOKEN']
+access_token_secret = environ['ACCESS_TOKEN_SECRET']
 
 def tweet_update():
 
