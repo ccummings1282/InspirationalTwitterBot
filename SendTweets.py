@@ -1,7 +1,6 @@
 import tweepy
 from os import environ
 import random
-import heroku
 from time import sleep
 
 # Set twitter credentials, these are stored in Heroku Config Vars
