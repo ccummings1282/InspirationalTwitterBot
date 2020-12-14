@@ -1,6 +1,7 @@
 import tweepy
 import credentials
 import random
+import heroku
 from time import sleep
 
 # Set twitter credentials
