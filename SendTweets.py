@@ -1,19 +1,26 @@
+import json
 import tweepy
-from os import environ
 import random
-from time import sleep
+from os import environ
 
-# Set twitter credentials, these are stored in Heroku Config Vars
-consumer_key = environ['API_KEY']
-consumer_secret_key = environ['API_SECRET_KEY']
-access_token = environ['ACCESS_TOKEN']
-access_token_secret = environ['ACCESS_TOKEN_SECRET']
+# Set twitter credentials, these are stored in AWS Lambda Config Vars
+def lambda_handler(event, context):
+    tweet_update()
+
 
 def tweet_update():
 
+    print('getting credentials')
+    consumer_key = environ['API_KEY']
+    consumer_secret_key = environ['API_SECRET_KEY']
+    access_token = environ['ACCESS_TOKEN']
+    access_token_secret = environ['ACCESS_TOKEN_SECRET']
+
+    print('authenticating')
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret_key)
     auth.set_access_token(access_token, access_token_secret)
     api = tweepy.API(auth)
+
 
     # List of formatted inspirational quotes.
     quotes = ["\"Believe you can and you're halfway there.\" \n-Theodore Roosevelt",
@@ -27,7 +34,7 @@ def tweet_update():
     "\"Never bend your head. Always hold it high. Look the world straight in the eye.\" \n-Helen Keller",
     "\"What you get by achieving your goals is not as important as what you become by achieving your goals.\" \n-Zig Ziglar",
     "\"Just don't give up trying to do what you really want to do. Where there is love and inspiration, I don't think you can go wrong.\" \n-Ella Fitzgerald",
-    "\"Limit your 'always' and your 'nevers.'\" \n-Amy Poehler​​",
+    "\"Limit your 'always' and your 'nevers.'\" \n-Amy Poehler",
     "\"You are never too old to set another goal or to dream a new dream.\" \n-C.S. Lewis",
     "\"Try to be a rainbow in someone else's cloud.\" \n-Maya Angelou",
     "\"You do not find the happy life. You make it.\" \n-Camilla Eyring Kimball",
@@ -50,7 +57,7 @@ def tweet_update():
 
 
     # Sends a reply to the most recent tweet which contains: #NeedInspiration
-    for tweet in tweepy.Cursor(api.search, q=('#NeedInspiration -filter:retweets'), lang='en').items(1):
+    for tweet in tweepy.Cursor(api.search, q=('#NeedInspiration -filter:retweets'), lang='en').items(3):
         try:
             handle = tweet.user.screen_name # author's twitter handle from selected tweet
             text = tweet.text # text from selected tweet
@@ -66,17 +73,9 @@ def tweet_update():
             # prints success log to console
             print('Success! Replied to @' + handle + '\'s tweet:\n\n' + text + '\n')
 
-            # sleep for 10 minutes
-            sleep(600)
         
         except tweepy.TweepError as e:
             print(e.reason) # Prints the reason for error if thrown.
 
         except StopIteration:
             break
-
-
-if __name__ == "__main__":
-    tweet_update()
-
-    # Run with terminal:   python .\SendTweets.py
