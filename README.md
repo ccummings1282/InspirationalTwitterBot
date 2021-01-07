@@ -10,8 +10,8 @@ The script is running as an AWS Lambda function, and triggered every five minute
 
 
 ### Here's and example of what the response will look like:
-Hey @ExampleAccount, here's an inspiring quote:
-"Life changes very quickly, in a very positive way, if you let it." 
+Hey @ExampleAccount, here's an inspiring quote:  
+"Life changes very quickly, in a very positive way, if you let it."  
 -Lindsey Vonn
 
 
