@@ -2,7 +2,9 @@
 
 This Twitter bot will like and send a reply to any tweet which contains **#NeedInspiration**.
 
-The script is running as an AWS Lambda function, and triggered every five minutes via an AWS CloudWatch event.
+The script is written in Python and makes use of the Tweepy library for accessing Twitter API.
+
+The script is currently running in an AWS Lambda function, and triggered every five minutes via an AWS CloudWatch event.
 
 ### The generated response will contain:
 * Author's Twitter handle
